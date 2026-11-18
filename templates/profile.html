@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user['username'] }} — CosmicVerse{% endblock %}
+
+{% block content %}
+
+<div style="max-width: 780px; margin: 0 auto;">
+
+    <!-- PROFILE HEADER -->
+    <div class="card" style="padding: 30px; margin-bottom: 25px;">
+        
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+                <h1 style="font-size: 1.8em; color: #1a1a1a; margin-bottom: 5px;">{{ user['username'] }}</h1>
+                <p style="color: #999999; font-family: Arial, sans-serif; font-size: 0.85em; margin-bottom: 15px;">Ahli sejak {{ user['tarikh_join'][:10] }}</p>
+                
+                {% if user['bio'] %}
+                    <p style="color: #444444; font-size: 0.95em; line-height: 1.6; max-width: 500px;">{{ user['bio'] }}</p>
+                {% else %}
+                    <p style="color: #aaaaaa; font-size: 0.9em; font-family: Arial, sans-serif; font-style: italic;">Tiada bio lagi.</p>
+                {% endif %}
+            </div>
+
+            {% if session.username == user['username'] %}
+            <a href="{{ url_for('edit_profile') }}" class="btn btn-outline" style="font-family: Arial, sans-serif; font-size: 0.88em;">Edit Profil</a>
+            {% endif %}
+        </div>
+
+        <!-- STATS -->
+        <div style="display: flex; gap: 30px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #f0f0f0;">
+            <div style="text-align: center;">
+                <p style="font-size: 1.4em; font-weight: bold; color: #1a1a1a;">{{ puisi_user|length }}</p>
+                <p style="font-size: 0.82em; color: #999999; font-family: Arial, sans-serif;">Puisi</p>
+            </div>
+            <div style="text-align: center;">
+                <p style="font-size: 1.4em; font-weight: bold; color: #1a1a1a;">{{ jumlah_like }}</p>
+                <p style="font-size: 0.82em; color: #999999; font-family: Arial, sans-serif;">Suka diterima</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PUISI USER -->
+    <p class="section-title">Puisi oleh {{ user['username'] }}</p>
+
+    {% if puisi_user %}
+        {% for puisi in puisi_user %}
+            <div class="card">
+            
+            <div style="margin-bottom: 10px;">
+                <span class="badge">{{ puisi['kategori'] }}</span>
+            </div>
+
+            <a href="{{ url_for('poem', poem_id=puisi['id']) }}" style="text-decoration: none;">
+                <h3 style="font-size: 1.2em; color: #1a1a1a; margin-bottom: 8px;">{{ puisi['tajuk'] }}</h3>
+            </a>
+
+            <p style="color: #555555; font-size: 0.92em; line-height: 1.7; margin-bottom: 15px; white-space: pre-line;">{{ puisi['isi'][:120] }}{% if puisi['isi']|length > 120 %}...{% endif %}</p>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; font-family: Arial, sans-serif; font-size: 0.82em; color: #999999;">
+                <span>{{ puisi['tarikh_publish'][:10] }}</span>
+                <a href="{{ url_for('poem', poem_id=puisi['id']) }}" style="color: #6366f1; text-decoration: none;">Baca →</a>
+            </div>
+
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="card" style="text-align: center; padding: 60px; color: #999999; font-family: Arial, sans-serif;">
+            <p>Belum ada puisi lagi.</p>
+            {% if session.username == user['username'] %}
+                <a href="{{ url_for('write') }}" style="color: #6366f1; display: block; margin-top: 10px;">Tulis puisi pertama anda!</a>
+            {% endif %}
+        </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}
+
+

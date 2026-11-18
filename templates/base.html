@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CosmicVerse{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <a href="{{ url_for('home') }}" class="nav-logo">Cosmic<span>Verse</span></a>
+        <div class="nav-links">
+            <a href="{{ url_for('home') }}">Utama</a>
+            <a href="{{ url_for('members') }}">Ahli</a>
+            <a href="{{ url_for('search') }}">Cari</a>
+            {% if session.user_id %}
+                <a href="{{ url_for('profile', username=session.username) }}">{{ session.username }}</a>
+                <a href="{{ url_for('write') }}" class="btn btn-primary">Tulis Puisi</a>
+                <a href="{{ url_for('logout') }}" class="btn btn-outline">Keluar</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="btn btn-outline">Log Masuk</a>
+                <a href="{{ url_for('register') }}" class="btn btn-primary">Daftar</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- FLASH MESSAGES -->
+    <div class="flash-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+     <!-- MAIN CONTENT -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>CosmicVerse &copy; 2026 — Ruang Puisi Digital</p>
+    </footer>
+    
+</body>
+</html>

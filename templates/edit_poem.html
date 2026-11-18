@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Puisi — CosmicVerse{% endblock %}
+
+{% block content %}
+
+<div style="max-width: 680px; margin: 0 auto;">
+
+    <div style="margin-bottom: 30px;">
+        <h1 style="font-size: 1.8em; color: #1a1a1a; margin-bottom: 8px;">Edit Puisi</h1>
+        <p style="color: #888888; font-family: Arial, sans-serif; font-size: 0.9em;">Kemaskini puisi anda.</p>
+    </div>
+
+    <div style="background: white; border: 1px solid #e5e5e5; border-radius: 8px; padding: 35px;">
+        <form method="POST">
+
+             <!-- TAJUK -->
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-family: Arial, sans-serif; font-size: 0.88em; color: #444444; margin-bottom: 6px;">Tajuk Puisi <span style="color: red;">*</span></label>
+                <input type="text" name="tajuk" required value="{{ puisi['tajuk'] }}"
+                    style="width: 100%; padding: 10px 14px; border: 1px solid #dddddd; border-radius: 5px; font-size: 0.95em; font-family: Arial, sans-serif; outline: none;">
+            </div>
+
+            <!-- ISI PUISI -->
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-family: Arial, sans-serif; font-size: 0.88em; color: #444444; margin-bottom: 6px;">Isi Puisi <span style="color: red;">*</span></label>
+                <textarea name="isi" required rows="12"
+                    style="width: 100%; padding: 10px 14px; border: 1px solid #dddddd; border-radius: 5px; font-size: 0.95em; font-family: 'Georgia', serif; outline: none; resize: vertical; line-height: 1.8;">{{ puisi['isi'] }}</textarea>
+            </div>
+
+            <!-- KATEGORI -->
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-family: Arial, sans-serif; font-size: 0.88em; color: #444444; margin-bottom: 6px;">Kategori <span style="color: red;">*</span></label>
+                <input type="text" name="kategori" required value="{{ puisi['kategori'] }}"
+                    style="width: 100%; padding: 10px 14px; border: 1px solid #dddddd; border-radius: 5px; font-size: 0.95em; font-family: Arial, sans-serif; outline: none;">
+            </div>
+
+            <!-- TAG -->
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-family: Arial, sans-serif; font-size: 0.88em; color: #444444; margin-bottom: 6px;">Tag <span style="color: #aaaaaa;">(optional)</span></label>
+                <input type="text" name="tags" value="{{ current_tags }}"
+                    style="width: 100%; padding: 10px 14px; border: 1px solid #dddddd; border-radius: 5px; font-size: 0.95em; font-family: Arial, sans-serif; outline: none;"
+                    placeholder="Contoh: cinta, rindu, malam">
+                <p style="color: #aaaaaa; font-size: 0.8em; font-family: Arial, sans-serif; margin-top: 5px;">Pisahkan setiap tag dengan koma.</p>
+            </div>
+
+            <!-- NAMA PENULIS ASAL -->
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-family: Arial, sans-serif; font-size: 0.88em; color: #444444; margin-bottom: 6px;">Nama Penulis Asal <span style="color: #aaaaaa;">(optional)</span></label>
+                <input type="text" name="nama_penulis_asal" value="{{ puisi['nama_penulis_asal'] or '' }}"
+                    style="width: 100%; padding: 10px 14px; border: 1px solid #dddddd; border-radius: 5px; font-size: 0.95em; font-family: Arial, sans-serif; outline: none;">
+            </div>
+
+            <!-- SUMBER -->
+            <div style="margin-bottom: 30px;">
+                <label style="display: block; font-family: Arial, sans-serif; font-size: 0.88em; color: #444444; margin-bottom: 6px;">Sumber <span style="color: #aaaaaa;">(optional)</span></label>
+                <input type="text" name="sumber" value="{{ puisi['sumber'] or '' }}"
+                    style="width: 100%; padding: 10px 14px; border: 1px solid #dddddd; border-radius: 5px; font-size: 0.95em; font-family: Arial, sans-serif; outline: none;">
+            </div>
+
+            <!-- BUTANG -->
+            <div style="display: flex; gap: 10px;">
+                <button type="submit" class="btn btn-primary" style="padding: 11px 25px; font-family: Arial, sans-serif; font-size: 0.95em; cursor: pointer;">
+                    Simpan
+                </button>
+                <a href="{{ url_for('poem', poem_id=puisi['id']) }}" class="btn btn-outline" style="padding: 11px 25px; font-family: Arial, sans-serif; font-size: 0.95em;">
+                    Batal
+                </a>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}{{ puisi['tajuk'] }} — CosmicVerse{% endblock %}
+
+{% block content %}
+
+<div style="max-width: 680px; margin: 0 auto;">
+
+    <!-- TAJUK -->
+    <h1 style="font-size: 2em; color: #1a1a1a; margin-bottom: 15px; line-height: 1.3;">{{ puisi['tajuk'] }}</h1>
+
+    <!-- INFO PENULIS -->
+     
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #e5e5e5;">
+        <div>
+            <a href="{{ url_for('profile', username=penulis['username']) }}" style="color: #1a1a1a; text-decoration: none; font-weight: bold; font-family: Arial, sans-serif; font-size: 0.95em;">{{ penulis['username'] }}</a>
+            <p style="color: #999999; font-size: 0.82em; font-family: Arial, sans-serif; margin-top: 2px;">{{ puisi['tarikh_publish'][:10] }}</p>
+        </div>
+
+        {% if session.user_id == puisi['user_id'] %}
+        <div style="display: flex; gap: 8px;">
+            <a href="{{ url_for('edit_poem', poem_id=puisi['id']) }}" class="btn btn-outline" style="font-family: Arial, sans-serif; font-size: 0.85em;">Edit</a>
+            <form method="POST" action="{{ url_for('delete_poem', poem_id=puisi['id']) }}" onsubmit="return confirm('Pasti nak delete puisi ni?')">
+                <button type="submit" style="background: #fef2f2; border: 1px solid #fca5a5; color: #991b1b; padding: 7px 18px; border-radius: 5px; font-family: Arial, sans-serif; font-size: 0.85em; cursor: pointer;">Delete</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- ISI PUISI -->
+    <div class="card" style="font-size: 1.1em; line-height: 2; white-space: pre-line; margin-bottom: 30px; padding: 30px;">{{ puisi['isi'] }}</div>
+
+    <!-- KREDIT (kalau ada) -->
+    {% if puisi['nama_penulis_asal'] %}
+    <div style="background: #f9f9f7; border-left: 3px solid #6366f1; padding: 12px 16px; margin-bottom: 30px; border-radius: 0 5px 5px 0;">
+        <p style="font-family: Arial, sans-serif; font-size: 0.88em; color: #666666;">
+            Puisi asal oleh <strong>{{ puisi['nama_penulis_asal'] }}</strong>
+            {% if puisi['sumber'] %} — <a href="{{ puisi['sumber'] }}" style="color: #6366f1;">Sumber</a>{% endif %}
+        </p>
+    </div>
+    {% endif %}
+
+    <!-- LIKE BUTTON -->
+    <div class="card" style="display: flex; align-items: center; gap: 15px; margin-bottom: 40px; padding: 20px;">
+        {% if session.user_id %}
+            <form method="POST" action="{{ url_for('like', poem_id=puisi['id']) }}">
+                <button type="submit" style="background: {% if sudah_like %}#eef2ff{% else %}white{% endif %}; border: 1px solid {% if sudah_like %}#6366f1{% else %}#dddddd{% endif %}; color: {% if sudah_like %}#6366f1{% else %}#555555{% endif %}; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-family: Arial, sans-serif; font-size: 0.9em;">
+                    {% if sudah_like %}♥ Disukai{% else %}♡ Suka{% endif %}
+                </button>
+            </form>
+        {% else %}
+            <a href="{{ url_for('login') }}" style="background: white; border: 1px solid #dddddd; color: #555555; padding: 8px 20px; border-radius: 20px; font-family: Arial, sans-serif; font-size: 0.9em; text-decoration: none;">♡ Suka</a>
+        {% endif %}
+        <span style="color: #999999; font-family: Arial, sans-serif; font-size: 0.9em;">{{ jumlah_like }} suka</span>
+    </div>
+
+    <!-- INFO KATEGORI & TAG -->
+    <div style="margin-bottom: 20px; display: flex; gap: 8px; flex-wrap: wrap;">
+        <span class="badge">{{ puisi['kategori'] }}</span>
+        {% for tag in tags %}
+            <a href="{{ url_for('tag', nama=tag['nama_tag']) }}" class="tag">#{{ tag['nama_tag'] }}</a>
+        {% endfor %}
+    </div>
+
+    <!-- KOMEN -->
+    <div>
+        <h3 style="font-size: 1.1em; color: #1a1a1a; margin-bottom: 20px; font-family: Arial, sans-serif;">Komen ({{ komen|length }})</h3>
+
+        <!-- FORM KOMEN -->
+        {% if session.user_id %}
+        <div class="card" style="padding: 20px; margin-bottom: 20px;">
+            <form method="POST" action="{{ url_for('comment', poem_id=puisi['id']) }}">
+                <textarea name="isi_komen" required rows="3"
+                    class="form-textarea" style="resize: none; margin-bottom: 10px;"
+                    placeholder="Tulis komen anda..."></textarea>
+                <button type="submit" class="btn btn-primary" style="font-family: Arial, sans-serif; font-size: 0.88em; cursor: pointer; padding: 8px 20px;">
+                    Hantar Komen
+                </button>
+            </form>
+        </div>
+        {% else %}
+        <div style="background: #f9f9f7; border: 1px solid #e5e5e5; border-radius: 8px; padding: 20px; margin-bottom: 20px; text-align: center;">
+            <p style="color: #888888; font-family: Arial, sans-serif; font-size: 0.9em;"><a href="{{ url_for('login') }}" style="color: #6366f1;">Log masuk</a> untuk komen.</p>
+        </div>
+        {% endif %}
+
+        <!-- LIST KOMEN -->
+        {% if komen %}
+            {% for k in komen %}
+            <div style="padding: 15px 0; border-bottom: 1px solid #f0f0f0;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                    <a href="{{ url_for('profile', username=k['username']) }}" style="font-family: Arial, sans-serif; font-size: 0.88em; font-weight: bold; color: #1a1a1a; text-decoration: none;">{{ k['username'] }}</a>
+                    <span style="font-family: Arial, sans-serif; font-size: 0.8em; color: #aaaaaa;">{{ k['tarikh'][:10] }}</span>
+                </div>
+                <p style="color: #444444; font-size: 0.92em; line-height: 1.6;">{{ k['isi_komen'] }}</p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p style="color: #aaaaaa; font-family: Arial, sans-serif; font-size: 0.9em; text-align: center; padding: 30px 0;">Belum ada komen. Jadi yang pertama!</p>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+

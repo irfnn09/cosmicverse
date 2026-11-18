@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Tulis Puisi — CosmicVerse{% endblock %}
+
+{% block content %}
+
+<div style="max-width: 680px; margin: 0 auto;">
+
+    <div style="margin-bottom: 30px;">
+        <h1 style="font-size: 1.8em; color: #1a1a1a; margin-bottom: 8px;">Tulis Puisi</h1>
+        <p style="color: #888888; font-family: Arial, sans-serif; font-size: 0.9em;">Luahkan perasaan anda melalui kata-kata.</p>
+    </div>
+
+    <div class="card" style="padding: 35px;">
+        <form method="POST">
+
+            <!-- TAJUK -->
+            <div style="margin-bottom: 20px;">
+                <label class="form-label">Tajuk Puisi <span style="color: red;">*</span></label>
+                <input type="text" name="tajuk" required
+                    class="form-input"
+                    placeholder="Tajuk puisi anda">
+            </div>
+
+            <!-- ISI PUISI -->
+            <div style="margin-bottom: 20px;">
+                <label class="form-label">Isi Puisi <span style="color: red;">*</span></label>
+                <textarea name="isi" required rows="12"
+                    class="form-textarea"
+                    placeholder="Tulis puisi anda di sini..."></textarea>
+            </div>
+
+            <!-- KATEGORI -->
+            <div style="margin-bottom: 20px;">
+                <label class="form-label">Kategori <span style="color: red;">*</span></label>
+                <input type="text" name="kategori" required
+                    class="form-input"
+                    placeholder="Contoh: Sajak, Pantun, Cinta, Alam...">
+                <p class="form-hint">Taip kategori ikut kreativiti anda.</p>
+            </div>
+
+            <!-- TAG -->
+            <div style="margin-bottom: 20px;">
+                <label class="form-label">Tag <span style="color: #aaaaaa;">(optional)</span></label>
+                <input type="text" name="tags"
+                    class="form-input"
+                    placeholder="Contoh: cinta, rindu, malam (pisahkan dengan koma)">
+                <p class="form-hint">Pisahkan setiap tag dengan koma.</p>
+            </div>
+
+            <!-- NAMA PENULIS ASAL -->
+            <div style="margin-bottom: 20px;">
+                <label class="form-label">Nama Penulis Asal <span style="color: #aaaaaa;">(optional)</span></label>
+                <input type="text" name="nama_penulis_asal"
+                    class="form-input"
+                    placeholder="Contoh: Nizar Qabbani (kosongkan jika puisi sendiri)">
+            </div>
+
+            <!-- SUMBER -->
+            <div style="margin-bottom: 30px;">
+                <label class="form-label">Sumber <span style="color: #aaaaaa;">(optional)</span></label>
+                <input type="text" name="sumber"
+                    class="form-input"
+                    placeholder="Contoh: Buku 'Qasidah' atau link URL">
+            </div>
+
+            <!-- BUTANG -->
+            <div style="display: flex; gap: 10px;">
+                <button type="submit" class="btn btn-primary" style="padding: 11px 30px; font-size: 0.95em; font-family: Arial, sans-serif; cursor: pointer;">
+                    Terbitkan Puisi
+                </button>
+                <a href="{{ url_for('home') }}" class="btn btn-outline" style="padding: 11px 30px; font-size: 0.95em; font-family: Arial, sans-serif;">
+                    Batal
+                </a>
+            </div>
+
+        </form>
+    </div>
+    
+</div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}CosmicVerse — Ruang Puisi Digital{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<div style="text-align: center; padding: 60px 20px; border-bottom: 1px solid #e5e5e5; margin-bottom: 40px;">
+    <h1 style="font-size: 2.5em; color: #1a1a1a; margin-bottom: 15px;">Ruang Puisi Digital</h1>
+    <p style="color: #666666; font-size: 1.1em; margin-bottom: 25px; font-family: Arial, sans-serif;">Tulis, kongsi, dan hayati puisi bersama komuniti.</p>
+    {% if not session.user_id %}
+        <a href="{{ url_for('register') }}" class="btn btn-primary" style="font-size: 1em; padding: 10px 25px;">Mula Menulis</a>
+    {% endif %}
+</div>
+
+<!-- LAYOUT UTAMA -->
+<div style="display: grid; grid-template-columns: 1fr 300px; gap: 40px;">
+
+    <!-- KIRI: PUISI -->
+    <div>
+        <p class="section-title">Puisi Terbaru</p>
+
+        {% if puisi_terbaru %}
+            {% for puisi in puisi_terbaru %}
+            <div class="card">
+                
+                <div style="margin-bottom: 12px;">
+                    <span class="badge">
+                </div>
+
+                <a href="{{ url_for('poem', poem_id=puisi['id']) }}" style="text-decoration: none;">
+                    <h3 style="font-size: 1.3em; color: #1a1a1a; margin-bottom: 8px;">{{ puisi['tajuk'] }}</h3>
+                </a>
+
+                <p style="color: #555555; font-size: 0.95em; line-height: 1.7; margin-bottom: 15px; white-space: pre-line;">{{ puisi['isi'][:150] }}{% if puisi['isi']|length > 150 %}...{% endif %}</p>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; font-family: Arial, sans-serif; font-size: 0.85em; color: #999999;">
+                    <span>oleh <a href="{{ url_for('profile', username=puisi['username']) }}" style="color: #6366f1; text-decoration: none;">{{ puisi['username'] }}</a></span>
+                    <a href="{{ url_for('poem', poem_id=puisi['id']) }}" style="color: #6366f1; text-decoration: none;">Baca →</a>
+                </div>
+
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="card">
+                <p>Belum ada puisi lagi.</p>
+                <a href="{{ url_for('write') }}" style="color: #6366f1;">Jadi yang pertama menulis!</a>
+            </div>
+        {% endif %}
+    </div>
+
+     <!-- KANAN: SIDEBAR -->
+    <div>
+
+        <!-- KATEGORI -->
+        <div class="card">
+            <h3 style="font-size: 0.95em; color: #666666; font-family: Arial, sans-serif; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px;">Kategori</h3>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                <a href="{{ url_for('category', nama='Sajak') }}" style="background: #f3f4f6; color: #555555; padding: 5px 12px; border-radius: 20px; font-size: 0.85em; text-decoration: none; font-family: Arial, sans-serif;">Sajak</a>
+                <a href="{{ url_for('category', nama='Pantun') }}" style="background: #f3f4f6; color: #555555; padding: 5px 12px; border-radius: 20px; font-size: 0.85em; text-decoration: none; font-family: Arial, sans-serif;">Pantun</a>
+                <a href="{{ url_for('category', nama='Haiku') }}" style="background: #f3f4f6; color: #555555; padding: 5px 12px; border-radius: 20px; font-size: 0.85em; text-decoration: none; font-family: Arial, sans-serif;">Haiku</a>
+                <a href="{{ url_for('category', nama='Bebas') }}" style="background: #f3f4f6; color: #555555; padding: 5px 12px; border-radius: 20px; font-size: 0.85em; text-decoration: none; font-family: Arial, sans-serif;">Bebas</a>
+                <a href="{{ url_for('category', nama='Cinta') }}" style="background: #f3f4f6; color: #555555; padding: 5px 12px; border-radius: 20px; font-size: 0.85em; text-decoration: none; font-family: Arial, sans-serif;">Cinta</a>
+                <a href="{{ url_for('category', nama='Alam') }}" style="background: #f3f4f6; color: #555555; padding: 5px 12px; border-radius: 20px; font-size: 0.85em; text-decoration: none; font-family: Arial, sans-serif;">Alam</a>
+                <a href="{{ url_for('category', nama='Rohani') }}" style="background: #f3f4f6; color: #555555; padding: 5px 12px; border-radius: 20px; font-size: 0.85em; text-decoration: none; font-family: Arial, sans-serif;">Rohani</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+

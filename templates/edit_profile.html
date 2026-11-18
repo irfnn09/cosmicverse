@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Profil — CosmicVerse{% endblock %}
+
+{% block content %}
+
+<div style="max-width: 480px; margin: 0 auto;">
+
+    <div style="margin-bottom: 30px;">
+        <h1 style="font-size: 1.8em; color: #1a1a1a; margin-bottom: 8px;">Edit Profil</h1>
+        <p style="color: #888888; font-family: Arial, sans-serif; font-size: 0.9em;">Kemaskini maklumat profil anda.</p>
+    </div>
+
+     <div style="background: white; border: 1px solid #e5e5e5; border-radius: 8px; padding: 35px;">
+        <form method="POST">
+
+            <!-- USERNAME -->
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-family: Arial, sans-serif; font-size: 0.88em; color: #444444; margin-bottom: 6px;">Username</label>
+                <input type="text" name="username" value="{{ user['username'] }}" required
+                    style="width: 100%; padding: 10px 14px; border: 1px solid #eeeeee; border-radius: 5px; font-size: 0.95em; font-family: Arial, sans-serif; background: #f9f9f9; color: #aaaaaa;">
+            </div>
+
+            <!-- EMAIL — READONLY -->
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-family: Arial, sans-serif; font-size: 0.88em; color: #444444; margin-bottom: 6px;">Email</label>
+                <input type="text" value="{{ user['email'] }}" disabled
+                    style="width: 100%; padding: 10px 14px; border: 1px solid #eeeeee; border-radius: 5px; font-size: 0.95em; font-family: Arial, sans-serif; background: #f9f9f9; color: #aaaaaa;">
+            </div>
+
+            <!-- BIO -->
+            <div style="margin-bottom: 25px;">
+                <label style="display: block; font-family: Arial, sans-serif; font-size: 0.88em; color: #444444; margin-bottom: 6px;">Bio</label>
+                <textarea name="bio" rows="4"
+                    style="width: 100%; padding: 10px 14px; border: 1px solid #dddddd; border-radius: 5px; font-size: 0.95em; font-family: Arial, sans-serif; outline: none; resize: vertical;">{{ user['bio'] or '' }}</textarea>
+                <p style="color: #aaaaaa; font-size: 0.8em; font-family: Arial, sans-serif; margin-top: 5px;">Ceritakan sedikit tentang diri anda.</p>
+            </div>
+
+             <!-- BUTANG -->
+            <div style="display: flex; gap: 10px;">
+                <button type="submit" class="btn btn-primary" style="padding: 11px 25px; font-family: Arial, sans-serif; font-size: 0.95em; cursor: pointer;">
+                    Simpan
+                </button>
+                <a href="{{ url_for('profile', username=user['username']) }}" class="btn btn-outline" style="padding: 11px 25px; font-family: Arial, sans-serif; font-size: 0.95em;">
+                    Batal
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

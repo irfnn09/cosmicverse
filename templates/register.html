@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Daftar — CosmicVerse{% endblock %}
+
+{% block content %}
+
+<div style="max-width: 420px; margin: 60px auto;">
+
+    <div style="text-align: center; margin-bottom: 30px;">
+        <h1 style="font-size: 1.8em; color: #1a1a1a; margin-bottom: 8px;">Daftar Akaun</h1>
+        <p style="color: #888888; font-family: Arial, sans-serif; font-size: 0.9em;">Sudah ada akaun? <a href="{{ url_for('login') }}" style="color: #6366f1; text-decoration: none;">Log masuk</a></p>
+    </div>
+
+    <div style="background: white; border: 1px solid #e5e5e5; border-radius: 8px; padding: 35px;">
+        <form method="POST">
+
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-family: Arial, sans-serif; font-size: 0.88em; color: #444444; margin-bottom: 6px;">Username</label>
+                <input type="text" name="username" required
+                    style="width: 100%; padding: 10px 14px; border: 1px solid #dddddd; border-radius: 5px; font-size: 0.95em; font-family: Arial, sans-serif; outline: none;"
+                    placeholder="Nama pengguna anda">
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-family: Arial, sans-serif; font-size: 0.88em; color: #444444; margin-bottom: 6px;">Email</label>
+                <input type="email" name="email" required
+                    style="width: 100%; padding: 10px 14px; border: 1px solid #dddddd; border-radius: 5px; font-size: 0.95em; font-family: Arial, sans-serif; outline: none;"
+                    placeholder="email@contoh.com">
+            </div>
+
+            <div style="position: relative;">
+                <input type="password" name="kata_laluan" id="kata_laluan" required
+                    style="width: 100%; padding: 10px 40px 10px 14px; border: 1px solid #dddddd; border-radius: 5px; font-size: 0.95em; font-family: Arial, sans-serif; outline: none;"
+                    placeholder="Kata laluan anda">
+                <span onclick="togglePassword('kata_laluan', this)"
+                    style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #aaaaaa;">
+                    <svg id="icon-kata_laluan" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                    </svg>
+                </span>
+            </div>
+
+             <button type="submit" class="btn btn-primary" style="width: 100%; padding: 11px; font-size: 0.95em; font-family: Arial, sans-serif; cursor: pointer;">
+                Daftar 
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+function togglePassword(inputId, span) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById('icon-' + inputId);
+    if (input.type === "password") {
+        // Tunjuk password — mata tanpa slash
+        input.type = "text";
+        span.style.color = "#6366f1";
+        icon.innerHTML = `
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+        `;
+    } else {
+        // Sorok password — mata dengan slash
+        input.type = "password";
+        span.style.color = "#aaaaaa";
+        icon.innerHTML = `
+            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+            <line x1="1" y1="1" x2="23" y2="23"></line>
+        `;
+    }
+}
+</script>
+
+{% endblock %}

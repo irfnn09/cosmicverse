@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Carian — CosmicVerse{% endblock %}
+
+{% block content %}
+
+<div style="max-width: 780px; margin: 0 auto;">
+
+    <!-- SEARCH BAR -->
+    <div style="margin-bottom: 30px;">
+        <h1 style="font-size: 1.8em; color: #1a1a1a; margin-bottom: 20px;">Carian</h1>
+        <form method="GET">
+            <div style="display: flex; gap: 10px;">
+                <input type="text" name="q" value="{{ query }}"
+                    style="flex: 1; padding: 10px 14px; border: 1px solid #dddddd; border-radius: 5px; font-size: 0.95em; font-family: Arial, sans-serif; outline: none;"
+                    placeholder="Cari puisi, tag, atau ahli...">
+                <button type="submit" class="btn btn-primary" style="font-family: Arial, sans-serif; padding: 10px 20px; cursor: pointer;">
+                    Cari
+                </button>
+            </div>
+        </form>
+    </div>
+
+    {% if query %}
+
+        <!-- RESULT PUISI -->
+        <div style="margin-bottom: 35px;">
+            <h2 style="font-size: 1em; color: #666666; font-family: Arial, sans-serif; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px;">Puisi ({{ puisi_result|length }})</h2>
+
+            {% if puisi_result %}
+                {% for puisi in puisi_result %}
+                <div style="background: white; border: 1px solid #e5e5e5; border-radius: 8px; padding: 25px; margin-bottom: 12px;">
+                    
+                    <div style="margin-bottom: 10px;">
+                        <span style="background: #f3f4f6; color: #555555; padding: 3px 10px; border-radius: 20px; font-size: 0.8em; font-family: Arial, sans-serif;">{{ puisi['kategori'] }}</span>
+                    </div>
+
+                    <a href="{{ url_for('poem', poem_id=puisi['id']) }}" style="text-decoration: none;">
+                        <h3 style="font-size: 1.2em; color: #1a1a1a; margin-bottom: 8px;">{{ puisi['tajuk'] }}</h3>
+                    </a>
+
+                    <p style="color: #555555; font-size: 0.92em; line-height: 1.7; margin-bottom: 12px; white-space: pre-line;">{{ puisi['isi'][:120] }}{% if puisi['isi']|length > 120 %}...{% endif %}</p>
+
+                    <div style="font-family: Arial, sans-serif; font-size: 0.82em; color: #999999;">
+                        oleh <a href="{{ url_for('profile', username=puisi['username']) }}" style="color: #6366f1; text-decoration: none;">{{ puisi['username'] }}</a>
+                    </div>
+
+                </div>
+                {% endfor %}
+            {% else %}
+                <p style="color: #aaaaaa; font-family: Arial, sans-serif; font-size: 0.9em;">Tiada puisi dijumpai.</p>
+            {% endif %}
+        </div>
+
+        <!-- RESULT USER -->
+        <div style="margin-bottom: 35px;">
+            <h2 style="font-size: 1em; color: #666666; font-family: Arial, sans-serif; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px;">Ahli ({{ user_result|length }})</h2>
+
+            {% if user_result %}
+                {% for user in user_result %}
+                <div style="background: white; border: 1px solid #e5e5e5; border-radius: 8px; padding: 20px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <a href="{{ url_for('profile', username=user['username']) }}" style="text-decoration: none;">
+                            <h3 style="font-size: 1em; color: #1a1a1a; margin-bottom: 4px;">{{ user['username'] }}</h3>
+                        </a>
+                        {% if user['bio'] %}
+                            <p style="color: #888888; font-size: 0.85em; font-family: Arial, sans-serif;">{{ user['bio'][:80] }}{% if user['bio']|length > 80 %}...{% endif %}</p>
+                        {% endif %}
+                    </div>
+                    <a href="{{ url_for('profile', username=user['username']) }}" class="btn btn-outline" style="font-family: Arial, sans-serif; font-size: 0.85em;">Lihat Profil</a>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p style="color: #aaaaaa; font-family: Arial, sans-serif; font-size: 0.9em;">Tiada ahli dijumpai.</p>
+            {% endif %}
+        </div>
+
+        <!-- RESULT TAG -->
+        <div>
+            <h2 style="font-size: 1em; color: #666666; font-family: Arial, sans-serif; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px;">Tag ({{ tag_result|length }})</h2>
+
+            {% if tag_result %}
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    {% for tag in tag_result %}
+                        <a href="{{ url_for('tag', nama=tag['nama_tag']) }}" style="background: #eef2ff; color: #6366f1; padding: 6px 14px; border-radius: 20px; font-size: 0.88em; text-decoration: none; font-family: Arial, sans-serif;">#{{ tag['nama_tag'] }}</a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p style="color: #aaaaaa; font-family: Arial, sans-serif; font-size: 0.9em;">Tiada tag dijumpai.</p>
+            {% endif %}
+        </div>
+
+    {% else %}
+        <div style="text-align: center; padding: 60px; color: #999999; font-family: Arial, sans-serif;">
+            <p>Taip sesuatu untuk mencari puisi, ahli atau tag.</p>
+        </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}
+
+                

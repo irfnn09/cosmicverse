@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Ahli — CosmicVerse{% endblock %}
+
+{% block content %}
+
+<div style="max-width: 780px; margin: 0 auto;">
+
+    <!-- HEADER -->
+    <div style="margin-bottom: 30px;">
+        <h1 style="font-size: 1.8em; color: #1a1a1a; margin-bottom: 8px;">Ahli CosmicVerse</h1>
+        <p style="color: #888888; font-family: Arial, sans-serif; font-size: 0.9em;">{{ users|length }} ahli berdaftar</p>
+    </div>
+
+     <!-- SEARCH -->
+    <div style="margin-bottom: 25px;">
+        <form method="GET">
+            <input type="text" name="cari" value="{{ cari }}"
+                style="width: 100%; padding: 10px 14px; border: 1px solid #dddddd; border-radius: 5px; font-size: 0.95em; font-family: Arial, sans-serif; outline: none;"
+                placeholder="Cari ahli...">
+        </form>
+    </div>
+
+    <!-- LIST AHLI -->
+    {% if users %}
+        {% for user in users %}
+        <div style="background: white; border: 1px solid #e5e5e5; border-radius: 8px; padding: 20px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+            
+            <div>
+                <a href="{{ url_for('profile', username=user['username']) }}" style="text-decoration: none;">
+                    <h3 style="font-size: 1.05em; color: #1a1a1a; margin-bottom: 4px;">{{ user['username'] }}</h3>
+                </a>
+                {% if user['bio'] %}
+                    <p style="color: #888888; font-size: 0.85em; font-family: Arial, sans-serif;">{{ user['bio'][:80] }}{% if user['bio']|length > 80 %}...{% endif %}</p>
+                {% else %}
+                    <p style="color: #cccccc; font-size: 0.85em; font-family: Arial, sans-serif; font-style: italic;">Tiada bio.</p>
+                {% endif %}
+                <p style="color: #bbbbbb; font-size: 0.8em; font-family: Arial, sans-serif; margin-top: 5px;">{{ user['jumlah_puisi'] }} puisi · Ahli sejak {{ user['tarikh_join'][:10] }}</p>
+            </div>
+
+            <a href="{{ url_for('profile', username=user['username']) }}" class="btn btn-outline" style="font-family: Arial, sans-serif; font-size: 0.85em; white-space: nowrap;">Lihat Profil</a>
+
+        </div>
+        {% endfor %}
+    {% else %}
+        <div style="text-align: center; padding: 60px; color: #999999; font-family: Arial, sans-serif; background: white; border: 1px solid #e5e5e5; border-radius: 8px;">
+            <p>Tiada ahli dijumpai.</p>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}
